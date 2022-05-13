@@ -1,11 +1,11 @@
 package model;
 
-public class CartecianPoints {
+public class CutPoints {
 	private int pixelsY;
 	private int pixelsX;
 
 
-	public CartecianPoints() {
+	public CutPoints() {
 		
 	}	
 }

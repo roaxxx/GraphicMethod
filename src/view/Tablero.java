@@ -149,6 +149,8 @@ public class Tablero extends JPanel{
 			int y = rRestrictions.get(i).getPixelsY();
 			pointX[i].setText(rRestrictions.get(i).getXpoint());
 			pointY[i].setText(rRestrictions.get(i).getYpoint());
+			pointY[i].setToolTipText(rRestrictions.get(i).getYpoint());
+			pointX[i].setToolTipText(rRestrictions.get(i).getXpoint());
 			pointX[i].setBounds(x,570,50,10);
 			pointY[i].setBounds(20,y,50,10);
 		}
