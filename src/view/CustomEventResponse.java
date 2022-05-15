@@ -8,6 +8,7 @@ public interface CustomEventResponse {
 
 	void makeGraph();
 
-	void sentResolvedRestrictions(ArrayList<Restriction> restrics);
+	void sentResolvedRestrictions(ArrayList<Restriction> restrics,
+			int[] factPointsX, int[] facPointsY, int i);
 
 }

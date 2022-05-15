@@ -7,11 +7,13 @@ import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
 import javax.swing.AbstractButton;
+import javax.swing.ButtonGroup;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JRadioButton;
 import javax.swing.JSpinner;
 import javax.swing.JTextField;
 import javax.swing.SpinnerNumberModel;
@@ -31,11 +33,14 @@ public class Menu extends JPanel implements ActionListener {
 	private JTextField zx2;
 	private JLabel zX2Label;
 	private JLabel inputTestric;
+	private JRadioButton maximize;
+	private JRadioButton minimize;
+	private ButtonGroup bg;
 	private JTextField [] resGird;
 	private JComboBox [] equalityCBox;
 
 	public Menu() {
-
+		this.setBackground(new Color(214, 234, 248 ));
 		this.setLayout(null);
 		this.setBorder(new TitledBorder(null, "Menu",
 				TitledBorder.CENTER, TitledBorder .TOP , null,Color.black));
@@ -53,27 +58,27 @@ public class Menu extends JPanel implements ActionListener {
 		add(textRestics);
 
 		zFuntion = new JLabel("Z =");
-		zFuntion.setBounds(40,160,20,20);
+		zFuntion.setBounds(40,170,20,20);
 		add(zFuntion);
 
 		zx1 = new JTextField();
-		zx1.setBounds(70,160,40,20);
+		zx1.setBounds(70,170,40,20);
 		add(zx1);
 
 		zx2 = new JTextField();
-		zx2.setBounds(150,160,40,20);
+		zx2.setBounds(150,170,40,20);
 		add(zx2);
 
 		zX1Label = new JLabel("X1 +");
-		zX1Label.setBounds(115,160,40,20);
+		zX1Label.setBounds(115,170,40,20);
 		add(zX1Label);
 		//        zx1Label = new JLabel();
 
 		zX2Label = new JLabel("X2");
-		zX2Label.setBounds(195,160,40,20);
+		zX2Label.setBounds(195,170,40,20);
 		add(zX2Label);
 
-		numRestics = new JSpinner(new  SpinnerNumberModel(3, 3, 5, 1));
+		numRestics = new JSpinner(new  SpinnerNumberModel(2, 2, 5, 1));
 		numRestics.setBounds(140,133,100,20);
 		add(numRestics);
 
@@ -83,9 +88,25 @@ public class Menu extends JPanel implements ActionListener {
 		add(resolve);
 		
 		inputTestric = new JLabel("X1         x2         igualdad      cantidad");
-		inputTestric.setBounds(60,200,220,20);
+		inputTestric.setBounds(60,250,260,20);
 		add(inputTestric);
 		inputTestric.setVisible(false);
+		
+		bg = new ButtonGroup();
+		
+		maximize = new JRadioButton("Máximizar");
+		maximize.setBounds(60,220,90,20);
+		maximize.setBackground(new Color(214, 234, 248));
+		add(maximize);
+		
+		bg.add(maximize);
+		
+		minimize = new JRadioButton("Minimizar");
+		minimize.setBounds(160,220,90,20);
+		minimize.setBackground(new Color(214, 234, 248));
+		add(minimize);
+		
+		bg.add(minimize);
 	}
 
 	@Override
@@ -117,18 +138,18 @@ public class Menu extends JPanel implements ActionListener {
 
 	public void getParameters(int numRestrictions) {
 		ArrayList<Restriction> restrics = new ArrayList<Restriction>();
-		
+		restrics.add(new Restriction(1.0, 0.0, ">=", 0.0,null, null, 0, 0));
 		for(int i=0;i<numRestrictions*3;i++) {
 			Restriction restriction = new Restriction();
-			restriction.setX1(resGird[i].getText());
-			restriction.setX2(resGird[i+1].getText());
-			restriction.setResourse(resGird[i+2].getText());
+			restriction.setX1(Double.parseDouble(resGird[i].getText()));
+			restriction.setX2(Double.parseDouble(resGird[i+1].getText()));
+			restriction.setResourse(Double.parseDouble(resGird[i+2].getText()));
 			restrics.add(restriction);
 			i=i+2;
 		}
 		
-		for(int i=0;i<restrics.size();i++) {
-			restrics.get(i).setEquality(String.valueOf(equalityCBox[i]
+		for(int i=0;i<restrics.size()-1;i++) {
+			restrics.get(i+1).setEquality(String.valueOf(equalityCBox[i]
 					.getSelectedItem()));
 		}
 		event.sentRestrictions(restrics);
@@ -137,7 +158,7 @@ public class Menu extends JPanel implements ActionListener {
 	public void createRestrictionsLabel(int restricsNum) {
 		resGird = new JTextField[restricsNum*3];
 		int size= 40;
-		int y=230;
+		int y=280;
 		int x=40;
 		for (int i=0;i<resGird.length;i++) { 
 			resGird[i]= new JTextField();
@@ -155,7 +176,7 @@ public class Menu extends JPanel implements ActionListener {
 	
 	public void createEqualityComboBox(int restricsNum) {
 		equalityCBox = new JComboBox[restricsNum];
-		int y = 230;
+		int y = 280;
 		int x = 150;
 		
 		for(int i=0; i<restricsNum;i++) {

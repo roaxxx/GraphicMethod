@@ -44,8 +44,10 @@ public class IOManager extends JFrame implements CustomEventResponse {
 		
 	}
 	@Override
-	public void sentResolvedRestrictions(ArrayList<Restriction> restrics) {
-		((Tablero)graph).makeGraphsGm(restrics);
+	public void sentResolvedRestrictions(ArrayList<Restriction> restrics,
+								int[] factPointsX, int[] facPointsY, int i) {
+		
+		((Tablero)graph).makeGraphsGm(restrics, factPointsX, facPointsY,i);
 		
 	}
 }

@@ -24,6 +24,9 @@ public class Tablero extends JPanel{
 	private JLabel [] pointY;
 	private CustomEvent event;
 	private boolean flag;
+	private int [] vectorX;
+	private int [] vectorY;
+	private int factPointN;
 	private ArrayList<Restriction> rRestrictions;
 
 	public Tablero() {
@@ -31,9 +34,10 @@ public class Tablero extends JPanel{
 		this.setLayout(null);
 		this.setBorder(new TitledBorder(null, "Tablero",
 				TitledBorder.CENTER, TitledBorder .TOP , null,Color.black));	
+		this.setBackground(new Color(213, 245, 227));
 		flag = false;
 		equality1 = new JLabel("   =");
-		equality1.setBounds(150,50,30,15);
+		equality1.setBounds(150,30,30,15);
 		equality1.setOpaque(true);
 		equality1.setBackground(new Color(169, 50, 38));
 		equality1.setForeground(Color.white);
@@ -41,7 +45,7 @@ public class Tablero extends JPanel{
 		add(equality1);
 
 		equality2 = new JLabel("  <=");
-		equality2.setBounds(190,50,30,15);
+		equality2.setBounds(190,30,30,15);
 		equality2.setOpaque(true);
 		equality2.setBackground(new Color(0, 105, 92));
 		equality2.setForeground(Color.white);
@@ -49,7 +53,7 @@ public class Tablero extends JPanel{
 		add(equality2);
 
 		equality3 = new JLabel("  >=");
-		equality3.setBounds(230,50,30,15);
+		equality3.setBounds(230,30,30,15);
 		equality3.setOpaque(true);
 		equality3.setBackground(new Color(69, 39, 160));
 		equality3.setForeground(Color.white);
@@ -61,19 +65,19 @@ public class Tablero extends JPanel{
 	}
 
 	public void createXpoints() {
-		pointX = new JLabel[5];
+		pointX = new JLabel[7];
 		int size= 40;
-		for (int i=0;i<5;i++) { 
+		for (int i=0;i<7;i++) { 
 			pointX[i]= new JLabel();
 			add(pointX[i]);
 		}
 	}
 
 	public void createYpoints() {
-		pointY = new JLabel[5];
+		pointY = new JLabel[7];
 		int size= 40;
 
-		for (int i=0;i<5;i++) { 
+		for (int i=0;i<7;i++) { 
 			pointY[i]= new JLabel();
 			add(pointY[i]);
 		}
@@ -87,50 +91,51 @@ public class Tablero extends JPanel{
 			BasicStroke grosor = new BasicStroke(2);
 
 			g2d.setStroke(grosor);
-			g2d.setColor(Color.black);
 
+			g.setColor(new Color(0, 255, 255 ));
+			g.fillPolygon(vectorX, vectorY,factPointN);
 			//xi,yi,xf,yf
+			g2d.setColor(Color.black);
 			g2d.drawLine(60,60,60,560);//y
 			g2d.drawLine(60,560,660,560);//X
 
+			
+			for (Restriction r : rRestrictions) {
 
-
-			for (int i =0; i<rRestrictions.size();i++) {
-				int x = rRestrictions.get(i).getPixelsX();
-				int y = rRestrictions.get(i).getPixelsY();
-				if(rRestrictions.get(i).getEquality().equals("=")) {			
+				int x = r.getPixelsX();
+				int y = r.getPixelsY();
+				if(r.getEquality().equals("=")) {			
 					g.setColor(new Color(169, 50, 38));
-				} else if(rRestrictions.get(i).getEquality().equals("<=")) {
+				} else if(r.getEquality().equals("<=")) {
 					g.setColor(new Color(0, 105, 92));
-	
+
 				} else {
 					g.setColor(new Color(69, 39, 160 ));
 				}
-				if(y==0) {      	
+				if(y == 0 && x != 0) {      	
 					g.drawLine(x,60,x,560);
-
-				}else if(x==0) {   	
+				}else if(x == 0 && y != 0) {   
 					g.drawLine(60,y,600,y);
-				}else if (rRestrictions.get(i).getResourse().equals("0")) {
+				}else if (r.getResourse()==0 &&(x != 0 || y != 0)) {
 					g.drawLine(60,560,660,y);	 
-				}else {
+				}else if(x == 0 && y == 0){
+					g.drawLine(60,560,61,561);
+				}else {	
 					g.drawLine(60,y,x,560);
-
 				}
 
 			}
 
-
-			/*
-			int vectorx [] = {61,61,228};
-			int vectory [] = {85,560,560};
-			g.setColor(new Color(0, 255, 255 ));
-			g.fillPolygon(vectorx, vectory,3);
-*/
+			//g.setColor(new Color(0, 255, 255 ));
+			//g.fillPolygon(vectorX, vectorY,factPointN);
 		}
 	}
 
-	public void makeGraphsGm(ArrayList<Restriction> restrics) {
+	public void makeGraphsGm(ArrayList<Restriction> restrics, int[] factPointsX,
+			int[] facPointsY, int i) {
+		this.vectorX = factPointsX;
+		this.vectorY = facPointsY;
+		this.factPointN = i;
 		rRestrictions = restrics;
 		flag = true;
 		repaint();
@@ -138,21 +143,29 @@ public class Tablero extends JPanel{
 		equality2.setVisible(true);
 		equality3.setVisible(true);
 		setPoints();
-
-
 	}
 
 	public void setPoints() {
-		
+
 		for(int i = 0;i <rRestrictions.size() ;i++) {
 			int x = rRestrictions.get(i).getPixelsX();
 			int y = rRestrictions.get(i).getPixelsY();
-			pointX[i].setText(rRestrictions.get(i).getXpoint());
-			pointY[i].setText(rRestrictions.get(i).getYpoint());
-			pointY[i].setToolTipText(rRestrictions.get(i).getYpoint());
-			pointX[i].setToolTipText(rRestrictions.get(i).getXpoint());
-			pointX[i].setBounds(x,570,50,10);
-			pointY[i].setBounds(20,y,50,10);
+			pointX[i].setText(String.valueOf(rRestrictions.get(i).getCutPoints().getX()));
+			pointY[i].setText(String.valueOf(rRestrictions.get(i).getCutPoints().getY()));
+			pointX[i].setToolTipText(String.valueOf(rRestrictions.get(i).getCutPoints().getX()));
+			pointY[i].setToolTipText(String.valueOf(rRestrictions.get(i).getCutPoints().getY()));
+			if(x == 0 && y != 0) {
+				pointX[i].setBounds((x+60),570,50,10);
+				pointY[i].setBounds(20,y,50,10);		
+			}else if(x != 0 && y == 0) {
+				pointX[i].setBounds(x,570,50,10);
+				pointY[i].setBounds(20,y+560,50,10);			
+			}else if(x == 0 && y == 0) {
+				pointX[i].setBounds((30),570,50,10);
+			}else {
+				pointX[i].setBounds(x,570,50,10);
+				pointY[i].setBounds(20,y,50,10);
+			}
 		}
 	}
 
