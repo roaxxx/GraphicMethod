@@ -18,7 +18,7 @@ import javax.swing.JSpinner;
 import javax.swing.JTextField;
 import javax.swing.SpinnerNumberModel;
 import javax.swing.border.TitledBorder;
-import model.Restriction;
+import model.*;
 
 public class Menu extends JPanel implements ActionListener {
 	private JButton resolve;
@@ -38,6 +38,7 @@ public class Menu extends JPanel implements ActionListener {
 	private ButtonGroup bg;
 	private JTextField [] resGird;
 	private JComboBox [] equalityCBox;
+	private JLabel answerZfuntion;
 
 	public Menu() {
 		this.setBackground(new Color(214, 234, 248 ));
@@ -92,6 +93,12 @@ public class Menu extends JPanel implements ActionListener {
 		add(inputTestric);
 		inputTestric.setVisible(false);
 		
+		answerZfuntion = new JLabel();
+		answerZfuntion.setBounds(20,510,260,30);
+		answerZfuntion.setOpaque(true);
+		answerZfuntion.setBackground(new Color(214, 234, 248 ));
+		add(answerZfuntion); 
+		
 		bg = new ButtonGroup();
 		
 		maximize = new JRadioButton("Máximizar");
@@ -126,9 +133,9 @@ public class Menu extends JPanel implements ActionListener {
 			numRestrictions = (int) numRestics.getValue();
 			getParameters(numRestrictions);
 			resolve.setText("VOLVER");
-			inputTestric.setVisible(false);
 			event.showGrahp();
 		}else {
+			inputTestric.setVisible(false);
 			resolve.setText("CONTINUAR");
 			textRestics.setVisible(true);
 			numRestics.setVisible(true);
@@ -152,7 +159,13 @@ public class Menu extends JPanel implements ActionListener {
 			restrics.get(i+1).setEquality(String.valueOf(equalityCBox[i]
 					.getSelectedItem()));
 		}
-		event.sentRestrictions(restrics);
+		ObjectiveFunction objfun = new ObjectiveFunction(Double.parseDouble(zx1.getText()),
+				Double.parseDouble(zx2.getText()));
+		if(maximize.isSelected()) {
+			event.sentRestrictions(restrics,objfun,1);	
+		}else if(minimize.isSelected()){
+			event.sentRestrictions(restrics,objfun,0);	
+		}
 	}
 
 	public void createRestrictionsLabel(int restricsNum) {
@@ -196,6 +209,11 @@ public class Menu extends JPanel implements ActionListener {
 
 	public void setEvent(CustomEvent event) {
 		this.event = event;
+	}
+
+	public void showResults(String result) {
+		answerZfuntion.setText("Z = "+result);
+		answerZfuntion.setToolTipText(result);
 	}
 
 

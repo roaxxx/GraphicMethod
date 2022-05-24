@@ -59,7 +59,7 @@ public class Tablero extends JPanel{
 		equality3.setForeground(Color.white);
 		equality3.setVisible(false);
 		add(equality3);
-
+				
 		createXpoints();
 		createYpoints();
 	}
@@ -125,9 +125,6 @@ public class Tablero extends JPanel{
 				}
 
 			}
-
-			//g.setColor(new Color(0, 255, 255 ));
-			//g.fillPolygon(vectorX, vectorY,factPointN);
 		}
 	}
 

@@ -201,17 +201,20 @@ public class Restriction {
 						*restriction.getResourse())) / ((ae-bd)));
 				y =(((actualRes.getX1() * restriction.getResourse()) - (actualRes.getResourse()
 						*restriction.getX1())) / ((ae-bd)));
-				if(x>0 ) {
+				if(x>=0 && (ae- bd) != 0 ) {
 					itPoint.setItPointX(x);			
 				}else if ((ae - bd) == 0 ){
 					itPoint.setItPointX(0);
 				}
-				if(y>0) {
+				if(y>=0 && (ae- bd) != 0) {
 					itPoint.setItPointY(y);			
 				}else if ((ae- bd) == 0 ){
 					itPoint.setItPointY(0);
 				}
-				itPoints.add(itPoint);
+				if(x>=0 && y>=0) {
+					itPoints.add(itPoint);		
+					System.out.println("iTX"+x+"iTY"+y);
+				}
 			}			
 		}	
 		return itPoints;

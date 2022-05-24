@@ -11,4 +11,6 @@ public interface CustomEventResponse {
 	void sentResolvedRestrictions(ArrayList<Restriction> restrics,
 			int[] factPointsX, int[] facPointsY, int i);
 
+	void sentResult(String zMax);
+
 }

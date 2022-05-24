@@ -6,35 +6,45 @@ import java.util.Iterator;
 import java.lang.*;
 
 public class FactibleZone {
-	private double factZoneX1;
-	private double factZoneX2;
-	private String equalityPoints;
+	private double factZX1;
+	private double factZX2;
+	private String eqPoints;
 
-	public FactibleZone(double factZoneX1, double factZoneX2) {
-		this.factZoneX1 = factZoneX1;
-		this.factZoneX2 = factZoneX2;
+	public FactibleZone(double factZoneX1, double factZoneX2, String equalityPoints) {
+		this.factZX1 = factZoneX1;
+		this.factZX2 = factZoneX2;
+		this.eqPoints = equalityPoints;
 	}
 
 	public FactibleZone() {
 
 	}
 
-	public double getFactZoneX1() {
-		return factZoneX1;
+	public double getFactZX1() {
+		return factZX1;
 	}
 
-	public void setFactZoneX1(double factZoneX1) {
-		this.factZoneX1 = factZoneX1;
+	public void setFactZX1(double factZoneX1) {
+		this.factZX1 = factZoneX1;
 	}
 
-	public double getFactZoneX2() {
-		return factZoneX2;
+	public double getFactZX2() {
+		return factZX2;
 	}
 
-	public void setFactZoneX2(double factZoneX2) {
-		this.factZoneX2 = factZoneX2;
+	public void setFactZX2(double factZoneX2) {
+		this.factZX2 = factZoneX2;
 	}
 	
+	
+	public String getEqPoints() {
+		return eqPoints;
+	}
+
+	public void setEqPoints(String equalityPoints) {
+		this.eqPoints = equalityPoints;
+	}
+
 	//Método para determinar la zona factible
 	public ArrayList<FactibleZone> makeFatibleZone(ArrayList<Restriction> restrics,
 			Restriction actualRes, ArrayList<FactibleZone> factPoints){
@@ -65,8 +75,10 @@ public class FactibleZone {
 					}
 				}
 			}
+			
 			if(isOnFacZone && !isOn(factPoints, inps.getItPointX(), inps.getItPointY())) {
-				factPoints.add(new FactibleZone(inps.getItPointX(), inps.getItPointY()));
+				factPoints.add(new FactibleZone(inps.getItPointX(), inps.getItPointY(),
+						actualRes.getEquality()));
 			}
 		}
 		return factPoints;
@@ -79,14 +91,14 @@ public class FactibleZone {
 		ArrayList<Integer> xPoints = new ArrayList<Integer>();
 		for (FactibleZone faPoints: factPoints) {
 
-			if((int) ((scaleX*faPoints.getFactZoneX1())+60)>660) {
+			if((int) ((scaleX*faPoints.getFactZX1())+60)>660) {
 				xPoints.add(660);
-				faPoints.setFactZoneX1(660);
-				faPoints.setFactZoneX2(60);
+				faPoints.setFactZX1(660);
+				faPoints.setFactZX2(60);
 			}else {	
-				xPoints.add((int) ((scaleX*faPoints.getFactZoneX1())+60));
-				faPoints.setFactZoneX1((int) ((scaleX*faPoints.getFactZoneX1())+60));
-				faPoints.setFactZoneX2((int) (560-((scaleY*faPoints.getFactZoneX2()))));
+				xPoints.add((int) ((scaleX*faPoints.getFactZX1())+60));
+				faPoints.setFactZX1((int) ((scaleX*faPoints.getFactZX1())+60));
+				faPoints.setFactZX2((int) (560-((scaleY*faPoints.getFactZX2()))));
 			}
 		}
 		return orderXPoints(xPoints, factPoints);
@@ -99,9 +111,6 @@ public class FactibleZone {
 			ArrayList<FactibleZone> orderedFactPoints = new ArrayList<FactibleZone>();
 			Collections.sort(xPoints);
 			for ( int i = 0; i< xPoints.size();i++) {	
-				
-				System.out.println("Agreado: x"+getFactPoint(xPoints.get(i), orderedFactPoints, factPoints).getFactZoneX1()
-						+" y"+getFactPoint(xPoints.get(i), orderedFactPoints, factPoints).getFactZoneX2());
 				orderedFactPoints.add(getFactPoint(xPoints.get(i), orderedFactPoints, factPoints));
 			}
 		return orderedFactPoints;
@@ -112,11 +121,9 @@ public class FactibleZone {
 			ArrayList<FactibleZone> factPoints) {
 		
 		for (FactibleZone factibleZone : factPoints) {
-			if(xPoint == (int) factibleZone.getFactZoneX1() && !isOnFactibleZone(orderedFactPoints, factibleZone)) {
-				//System.out.println("Objeto que devuelve"+factibleZone.getFactZoneX1()+" y "+factibleZone.getFactZoneX1());
+			if(xPoint == (int) factibleZone.getFactZX1() && !isOnFactibleZone(orderedFactPoints, factibleZone)) {
 				return factibleZone;
 			}
-			//System.out.println("xpoint " +xPoint+" =!"+(int) factibleZone.getFactZoneX1());
 		}
 		
 		return null;
@@ -126,8 +133,8 @@ public class FactibleZone {
 	public boolean isOnFactibleZone(ArrayList<FactibleZone> orderedFactPoints,
 			FactibleZone factibleZone) {
 		for (FactibleZone factZone : orderedFactPoints) {
-			if(factZone.getFactZoneX1()==factibleZone.getFactZoneX1()
-					&& factZone.getFactZoneX2()==factibleZone.getFactZoneX2()) {
+			if(factZone.getFactZX1()==factibleZone.getFactZX1()
+					&& factZone.getFactZX2()==factibleZone.getFactZX2()) {
 				return true;
 			}
 		}
@@ -137,7 +144,7 @@ public class FactibleZone {
 	//Método para determinar si ya existe el punto factible
 	public boolean isOn(ArrayList<FactibleZone> factPoints, double x, double y) {
 		for (FactibleZone factibleZone : factPoints) {
-			if(factibleZone.getFactZoneX1()==x && factibleZone.getFactZoneX2()==y) {
+			if(factibleZone.getFactZX1()==x && factibleZone.getFactZX2()==y) {
 				return true;
 			}
 		}
