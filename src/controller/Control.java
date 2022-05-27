@@ -89,4 +89,10 @@ public class Control implements CustomEvent {
 		event.sentResolvedRestrictions(restrics, factPointsX, factPointsY, itcp.size());
 	}
 
+	@Override
+	public void hiddeGrahp() {
+		event.hiddenGraph();
+		
+	}
+
 }

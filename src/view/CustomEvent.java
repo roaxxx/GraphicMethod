@@ -11,4 +11,6 @@ public interface CustomEvent {
 
 	void sentRestrictions(ArrayList<Restriction> restrics, ObjectiveFunction objfun, int i);
 
+	void hiddeGrahp();
+
 }

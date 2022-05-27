@@ -47,7 +47,7 @@ public class Tablero extends JPanel{
 		equality2 = new JLabel("  <=");
 		equality2.setBounds(190,30,30,15);
 		equality2.setOpaque(true);
-		equality2.setBackground(new Color(0, 105, 92));
+		equality2.setBackground(new Color(244, 81, 30));
 		equality2.setForeground(Color.white);
 		equality2.setVisible(false);
 		add(equality2);
@@ -107,8 +107,7 @@ public class Tablero extends JPanel{
 				if(r.getEquality().equals("=")) {			
 					g.setColor(new Color(169, 50, 38));
 				} else if(r.getEquality().equals("<=")) {
-					g.setColor(new Color(0, 105, 92));
-
+					g.setColor(new Color(244, 81, 30));
 				} else {
 					g.setColor(new Color(69, 39, 160 ));
 				}
@@ -135,6 +134,7 @@ public class Tablero extends JPanel{
 		this.factPointN = i;
 		rRestrictions = restrics;
 		flag = true;
+		System.out.println("Llego");
 		repaint();
 		equality1.setVisible(true);
 		equality2.setVisible(true);
@@ -174,6 +174,18 @@ public class Tablero extends JPanel{
 
 	public void setEvent(CustomEvent event) {
 		this.event = event;
+	}
+
+	public void makeInvisibleGraph() {
+		flag = false;
+		repaint();
+		for ( int i = 0; i<pointX.length;i++) {
+			pointX[i].setText("");
+			pointY[i].setText("");
+			pointX[i].setToolTipText("");
+			pointY[i].setToolTipText("");
+		}
+		
 	}
 
 

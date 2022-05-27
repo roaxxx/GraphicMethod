@@ -13,4 +13,6 @@ public interface CustomEventResponse {
 
 	void sentResult(String zMax);
 
+	void hiddenGraph();
+
 }

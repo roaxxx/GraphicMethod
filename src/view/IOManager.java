@@ -38,6 +38,7 @@ public class IOManager extends JFrame implements CustomEventResponse {
 		add(graph);
 
 	}
+	
 	@Override
 	public void makeGraph() {
 		//((Tablero)graph).makeGraphsGm();
@@ -53,6 +54,8 @@ public class IOManager extends JFrame implements CustomEventResponse {
 	public void sentResult(String result) {
 		((Menu)options).showResults(result);
 	}
-	
-
+	@Override
+	public void hiddenGraph() {
+		((Tablero)graph).makeInvisibleGraph();
+	}
 }

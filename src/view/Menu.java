@@ -21,6 +21,7 @@ import javax.swing.border.TitledBorder;
 import model.*;
 
 public class Menu extends JPanel implements ActionListener {
+	
 	private JButton resolve;
 	private Image jdcIcon;
 	private JLabel iconFrame;
@@ -112,7 +113,8 @@ public class Menu extends JPanel implements ActionListener {
 		minimize.setBounds(160,220,90,20);
 		minimize.setBackground(new Color(214, 234, 248));
 		add(minimize);
-		
+		createEqualityComboBox();
+		createRestrictionsLabel();
 		bg.add(minimize);
 	}
 
@@ -124,10 +126,7 @@ public class Menu extends JPanel implements ActionListener {
 		if(nameBtn.equals("CONTINUAR")) {
 			resolve.setText("GRÁFICAR");
 			numRestrictions = (int) numRestics.getValue();
-			textRestics.setVisible(false);
-			numRestics.setVisible(false);
-			createRestrictionsLabel(numRestrictions);
-			createEqualityComboBox(numRestrictions);
+			showItems(numRestrictions);
 			inputTestric.setVisible(true);
 		}else if(nameBtn.equals("GRÁFICAR")){
 			numRestrictions = (int) numRestics.getValue();
@@ -135,12 +134,33 @@ public class Menu extends JPanel implements ActionListener {
 			resolve.setText("VOLVER");
 			event.showGrahp();
 		}else {
-			inputTestric.setVisible(false);
 			resolve.setText("CONTINUAR");
+			event.hiddeGrahp();
+			resetAllImtems();
+			inputTestric.setVisible(false);
 			textRestics.setVisible(true);
 			numRestics.setVisible(true);
 		}
+	}
 
+	private void resetAllImtems() {
+		for(int i = 0; i< resGird.length;i++) {
+			resGird[i].setVisible(false);
+			resGird[i].setText("");
+		}
+		for ( int i = 0; i<equalityCBox.length;i++) {
+			equalityCBox[i].setVisible(false);
+		}
+		
+	}
+
+	private void showItems(int numRestrictions) {
+		for(int i = 0; i< ((numRestrictions)*3);i++) {
+			resGird[i].setVisible(true);
+		}
+		for ( int i = 0; i<numRestrictions;i++) {
+			equalityCBox[i].setVisible(true);
+		}
 	}
 
 	public void getParameters(int numRestrictions) {
@@ -153,7 +173,7 @@ public class Menu extends JPanel implements ActionListener {
 			restriction.setResourse(Double.parseDouble(resGird[i+2].getText()));
 			restrics.add(restriction);
 			i=i+2;
-		}
+	}
 		
 		for(int i=0;i<restrics.size()-1;i++) {
 			restrics.get(i+1).setEquality(String.valueOf(equalityCBox[i]
@@ -166,10 +186,11 @@ public class Menu extends JPanel implements ActionListener {
 		}else if(minimize.isSelected()){
 			event.sentRestrictions(restrics,objfun,0);	
 		}
+		System.out.println("Termino");
 	}
 
-	public void createRestrictionsLabel(int restricsNum) {
-		resGird = new JTextField[restricsNum*3];
+	public void createRestrictionsLabel() {
+		resGird = new JTextField[21];
 		int size= 40;
 		int y=280;
 		int x=40;
@@ -183,21 +204,23 @@ public class Menu extends JPanel implements ActionListener {
 				resGird[i].setBounds(x,y,size,20);
 				x+=size+20;
 			}
+			resGird[i].setVisible(false);
 			add(resGird[i]);
 		}
 	} 
 	
-	public void createEqualityComboBox(int restricsNum) {
-		equalityCBox = new JComboBox[restricsNum];
+	public void createEqualityComboBox() {
+		equalityCBox = new JComboBox[7];
 		int y = 280;
 		int x = 150;
 		
-		for(int i=0; i<restricsNum;i++) {
+		for(int i=0; i<7;i++) {
 			equalityCBox[i] = new JComboBox();
 			equalityCBox[i].setBounds(x,y,60,20);
 			equalityCBox[i].addItem("=");
 			equalityCBox[i].addItem(">=");
 			equalityCBox[i].addItem("<=");
+			equalityCBox[i].setVisible(false);
 			add(equalityCBox[i]);
 			y = y+50;
 		}
